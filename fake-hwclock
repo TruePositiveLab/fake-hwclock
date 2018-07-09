@@ -4,14 +4,19 @@
 # This format sorts lexicographically
 
 CLOCKFILE="/storage/.fake-hwclock.data"
-CTIME=$(date --rfc-3339=seconds)
-FTIME=$(test -f "${CLOCKFILE}" && cat "${CLOCKFILE}")
+CTIME=$(date +%s)
+
+if test -f "${CLOCKFILE}" ; then
+    FTIME=$(cat "${CLOCKFILE}")
+else
+    FTIME=0
+fi
 
 # if the file time is in the future, use that
 setclock() {
-	if expr "${FTIME}" \> "${CTIME}" ; then
+	if test "${FTIME}" -ge "${CTIME}" ; then
 		echo "loading saved time ${FTIME} over ${CTIME}"
-		date --set="${FTIME}"
+		date @${FTIME}
 		#date --date="${FTIME}"
 		#echo would set clock to $FTIME
 	else
@@ -22,7 +27,7 @@ setclock() {
 
 # if current time is greater than what is in the file, save it
 saveclock() {
-	if expr "${CTIME}" \> "${FTIME}" ; then
+	if test "${CTIME}" -ge "${FTIME}" ; then
 		echo "saving time ${CTIME} over ${FTIME}"
 		echo "${CTIME}" > "${CLOCKFILE}"
 	else
