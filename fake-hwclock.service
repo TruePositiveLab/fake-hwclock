@@ -7,11 +7,11 @@
 [Unit]
 Description=Fake Hardware Clock
 DefaultDependencies=No
-Requires=local-fs.target
+Requires=local-fs.target dev-data.device
 After=local-fs.target
 Wants=time-sync.target
 Conflicts=shutdown.target
-Before=shutdown.target time-sync.target ntpdate.service ntpd.service
+Before=shutdown.target time-sync.target ntpdate.service ntpd.service kodi.service
 
 [Service]
 Type=oneshot
