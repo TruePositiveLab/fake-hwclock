@@ -27,12 +27,8 @@ setclock() {
 
 # if current time is greater than what is in the file, save it
 saveclock() {
-	if test "${CTIME}" -ge "${FTIME}" ; then
-		echo "saving time ${CTIME} over ${FTIME}"
-		echo "${CTIME}" > "${CLOCKFILE}"
-	else
-		echo "not saving time ${CTIME} over ${FTIME}"
-	fi
+	echo "saving time ${CTIME} over ${FTIME}"
+	echo "${CTIME}" > "${CLOCKFILE}"
 }
 
 
